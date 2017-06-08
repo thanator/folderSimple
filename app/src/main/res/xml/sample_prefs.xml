@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:title="Switch Example Titile"
+        android:summary="Switch Example Summary"
+        android:key="switch_pref"
+        android:defaultValue="true"
+        />
+    <EditTextPreference
+        android:title="Edit Text Example Titile"
+        android:summary="Edit Text Exampole Summary"
+        android:key="edit_text_pref"
+        />
+
+</PreferenceScreen>
