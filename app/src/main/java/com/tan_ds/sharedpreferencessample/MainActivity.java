@@ -15,6 +15,7 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity  {
     private final static String FOLDER_NAME = "name";
+    private final static String END_FOLDER_NAME = "/system";
     private String mName;
 
     private FoldersAdapter mFolderAdapter;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (!mFile.toString().equals("/system")){
+        if (!mFile.toString().equals(END_FOLDER_NAME)){
             Intent intent = getIntent();
             intent.putExtra(FOLDER_NAME, mFile.getParent());
             finish();
