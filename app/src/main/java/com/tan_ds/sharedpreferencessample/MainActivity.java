@@ -1,81 +1,109 @@
 package com.tan_ds.sharedpreferencessample;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static android.os.Environment.getExternalStorageDirectory;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String PLAIN_TEXT = "plain_text";
-    private static final String NUMBER_TEXT = "number_text";
-    private static final String CHECKBOX_FLAG = "ckeckbox_flag";
-
-    private EditText mPlainEditText, mNumberEditText;
-    private CheckBox mCheckBox;
+public class MainActivity extends AppCompatActivity  {
+    private final static String FOLDER_NAME = "name";
+    private Intent mIntent = null;
+    private String mName;
 
     private FoldersAdapter mFolderAdapter;
     private ListView mListView;
-
-    private SharedPreferences mSharedPreferences;
+    private File mFile;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        setContentView(R.layout.activity_main);
-        mPlainEditText = (EditText) findViewById(R.id.plain_edit_text);
-        mNumberEditText = (EditText) findViewById(R.id.number_edit_text);
-        mCheckBox = (CheckBox) findViewById(R.id.check_box);
-
-        File[] listFiles = Environment.getRootDirectory().listFiles();
-
-        mListView = (ListView) findViewById(R.id.list_view);
-        mFolderAdapter = new FoldersAdapter(listFiles);
-        mListView.setAdapter(mFolderAdapter);
-
-    }
-
-    private void readValuesFromRefs(){
-        mPlainEditText.setText(mSharedPreferences.getString(PLAIN_TEXT, "MAMA MILA RAMU"));
-        mNumberEditText.setText(String.valueOf(mSharedPreferences.getFloat(NUMBER_TEXT, 0)));
-        mCheckBox.setChecked(mSharedPreferences.getBoolean(CHECKBOX_FLAG, false));
-    }
-
-    private void writeValuesToPref() {
-        String plainText = mPlainEditText.getText().toString();
-        Double number = 0.0;
-        String numberText = mNumberEditText.getText().toString();
-        if (!TextUtils.isEmpty(numberText)){
-            number = Double.parseDouble(numberText);
+    public void onBackPressed() {
+        super.onBackPressed();
+        String temp = "/system";
+        if (!mFile.toString().equals(temp)){
+            Intent intent = getIntent();
+            intent.putExtra(FOLDER_NAME, mFile.getParent());
+            finish();
+            startActivity(intent);
         }
-        String temp = number.toString();
-        mSharedPreferences.edit().putString(PLAIN_TEXT, plainText)
-                .putFloat(NUMBER_TEXT, Float.parseFloat(temp))
-                .putBoolean(CHECKBOX_FLAG, mCheckBox.isChecked())
-                .apply();
+
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        readValuesFromRefs();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        //addPreferencesFromResource(R.xml.sample_prefs);
+        setContentView(R.layout.activity_folders);
+
+            mIntent = getIntent();
+            mName = mIntent.getStringExtra(FOLDER_NAME);
+        if (mName != null){
+            mFile = new File(mName);
+        } else{
+            mFile = Environment.getRootDirectory();
+        }
+
+
+        mListView = (ListView) findViewById(R.id.list_view_folder);
+
+        File[] files = mFile.listFiles();
+        mFolderAdapter = new FoldersAdapter(files);
+        mListView.setAdapter(mFolderAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // Log.e("This: ", "" + parent.getItemAtPosition(position).toString());
+                File itemFile = (File) parent.getItemAtPosition(position);
+                if (itemFile.isFile())
+                    Toast.makeText(getApplicationContext(), "This is file", Toast.LENGTH_SHORT).show();
+                else if (itemFile.isDirectory()){
+                    Intent intent = getIntent();
+                    intent.putExtra(FOLDER_NAME, parent.getItemAtPosition(position).toString());
+                    finish();
+                    startActivity(intent);
+                }else
+                    Toast.makeText(getApplicationContext(), "Dunno wtf is this", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /*SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
+        Map<String, ?>preferencesMap = preferences.getAll();
+        for (String key : preferencesMap.keySet()){
+            Log.d("This one", "Key: " + key + ", pref: " +preferencesMap.get(key));
+        }*/
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        writeValuesToPref();
+
     }
 }

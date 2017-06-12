@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">SharedPreferencesSample</string>
+    <string name="switch_example_titile">Switch Example Titile</string>
+    <string name="switch_exaple_sumary">Switch Example Summary</string>
+    <string name="switch_key">switch_pref</string>
+    <string name="edit_text_titile">Edit Text Example Titile</string>
+    <string name="edit_text_summ">Edit Text Exampole Summary</string>
+    <string name="edit_text_key">edit_text_pref</string>
+    <string name="list_titile">List Pref</string>
+    <string name="list_key">list_pref</string>
+    <string-array name="string_array">
+        <item>i</item>
+        <item>i</item>
+        <item>i</item>
+        <item>i</item>
+        <item>i</item>
+        <item>i</item>
+    </string-array>
+    <string-array name="string_array_2">
+        <item>q</item>
+        <item>q</item>
+        <item>q</item>
+        <item>q</item>
+        <item>q</item>
+        <item>q</item>
+    </string-array>
 </resources>

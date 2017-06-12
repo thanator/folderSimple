@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:title="Switch Example Titile"
-        android:summary="Switch Example Summary"
-        android:key="switch_pref"
-        android:defaultValue="true"
-        />
-    <EditTextPreference
-        android:title="Edit Text Example Titile"
-        android:summary="Edit Text Exampole Summary"
-        android:key="edit_text_pref"
-        />
+
+
+    <PreferenceCategory
+        android:title="Category 1">
+
+        <SwitchPreference
+            android:title="@string/switch_example_titile"
+            android:summary="@string/switch_exaple_sumary"
+            android:key="@string/switch_key"
+            android:defaultValue="false"
+            />
+        <EditTextPreference
+            android:title="@string/edit_text_titile"
+            android:summary="@string/edit_text_summ"
+            android:key="@string/edit_text_key"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="@string/switch_key"
+        android:title="Category 2"
+        >
+
+        <CheckBoxPreference
+            android:title="aaa"
+            android:summary="bbb"
+            android:key="ccc"
+            />
+        <RingtonePreference
+            android:title="ghjkl"
+            />
+        <ListPreference
+            android:entries="@array/string_array"
+            android:entryValues="@array/string_array"
+            />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Preference category">
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>
