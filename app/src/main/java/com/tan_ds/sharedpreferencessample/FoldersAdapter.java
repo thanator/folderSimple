@@ -18,9 +18,6 @@ public class FoldersAdapter extends BaseAdapter{
 
     public FoldersAdapter(File[] files){this.mFiles = files;}
 
-
-
-
     @Override
     public int getCount() {
         return mFiles.length;
@@ -54,8 +51,6 @@ public class FoldersAdapter extends BaseAdapter{
 
         return view;
     }
-
-
 
     private static class ViewHolder{
         private TextView mText;
